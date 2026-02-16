@@ -81,7 +81,7 @@ export function Home() {
         }}
       />
       {/* Hero Section */}
-      <section className="relative min-h-[calc(100vh-5rem)] max-h-[100vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900">
+      <section className="relative min-h-[calc(100vh-5rem)] max-h-[100vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900 pt-14 md:pt-20 lg:pt-24">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
@@ -109,8 +109,7 @@ export function Home() {
             transition={{ duration: 0.8 }}
           >
             <h1
-              className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight font-poppins"
             >
               Transform Your Business
               <br />
@@ -146,8 +145,7 @@ export function Home() {
                 className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20"
               >
                 <div
-                  className="text-4xl font-bold text-white mb-2"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="text-4xl font-bold text-white mb-2 font-poppins"
                 >
                   {stat.value}
                 </div>
@@ -205,8 +203,7 @@ export function Home() {
             className="text-center mb-16"
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 font-poppins"
             >
               Our Services
             </h2>
@@ -250,8 +247,7 @@ export function Home() {
             className="text-center mb-16"
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 font-poppins"
             >
               Featured Projects
             </h2>
@@ -279,7 +275,7 @@ export function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <p className="text-sm text-blue-300 mb-2">{project.category}</p>
-                    <h3 className="text-xl font-bold" style={{ fontFamily: "Poppins, sans-serif" }}>
+                    <h3 className="text-xl font-bold font-poppins">
                       {project.title}
                     </h3>
                   </div>
@@ -304,8 +300,7 @@ export function Home() {
             className="text-center mb-16"
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 font-poppins"
             >
               What Our Clients Say
             </h2>
@@ -315,28 +310,6 @@ export function Home() {
           </motion.div>
 
           <TestimonialSlider />
-        </div>
-      </section>
-
-      {/* CTA Banner */}
-      <section className="py-16 bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-lg p-10 md:p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
-              Ready for a delivery team you can trust?
-            </h2>
-            <p className="text-blue-100 max-w-2xl mx-auto mb-8">
-              Get a clear plan, realistic milestones, and senior engineers focused on outcomes—not just output.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <CTAButton to="/hire-us" variant="primary">
-                Request a Proposal
-              </CTAButton>
-              <CTAButton to="/contact" variant="secondary">
-                Talk to an Architect
-              </CTAButton>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -354,35 +327,51 @@ export function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2
-              className="text-4xl md:text-5xl font-bold mb-6"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
-              Ready to Start Your Project?
-            </h2>
-            <p className="text-xl text-gray-300 mb-8">
-              Let's discuss how we can help transform your business with innovative IT solutions.
-            </p>
+            <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-lg p-10 md:p-12 transition-colors duration-300 hover:bg-white/10">
+              <p className="text-sm font-semibold tracking-wider text-blue-200 uppercase mb-4">
+                Let’s build something great
+              </p>
+              <h2
+                className="text-4xl md:text-5xl font-bold mb-6 font-poppins"
+              >
+                Ready to Start Your Project?
+              </h2>
+              <p className="text-xl text-gray-200 mb-8">
+                Let’s discuss how we can help transform your business with innovative IT solutions.
+              </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <CTAButton to="/hire-us" variant="primary">
-                Hire Us Now
-              </CTAButton>
-              <CTAButton to="/contact" variant="secondary">
-                Contact Us
-              </CTAButton>
-            </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <CTAButton
+                  to="/hire-us"
+                  variant="primary"
+                  className="hover:brightness-110"
+                >
+                  Hire Us Now
+                </CTAButton>
+                <CTAButton
+                  to="/contact"
+                  variant="secondary"
+                  className="border-white/30 hover:bg-white/25"
+                >
+                  Contact Us
+                </CTAButton>
+              </div>
 
-            {/* Trust Indicators */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
-              {["24/7 Support", "Money-Back Guarantee", "Agile Process", "NDA Protection"].map(
-                (item, index) => (
-                  <div key={index} className="flex flex-col items-center bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                    <CheckCircle2 className="text-blue-400 mb-2" size={24} />
-                    <span className="text-sm text-gray-300">{item}</span>
-                  </div>
-                )
-              )}
+              <p className="mt-3 text-sm text-gray-300">
+                We respond within 24 hours.
+              </p>
+
+              {/* Trust Indicators */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+                {["24/7 Support", "Money-Back Guarantee", "Agile Process", "NDA Protection"].map(
+                  (item, index) => (
+                    <div key={index} className="flex flex-col items-center bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 transition-transform duration-300 hover:-translate-y-0.5">
+                      <CheckCircle2 className="text-blue-400 mb-2" size={24} />
+                      <span className="text-sm text-gray-300">{item}</span>
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           </motion.div>
         </div>

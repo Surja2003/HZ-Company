@@ -53,8 +53,7 @@ export function About() {
             className="text-center"
           >
             <h1
-              className="text-5xl md:text-6xl font-bold mb-6"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-5xl md:text-6xl font-bold mb-6 font-poppins"
             >
               About HZ IT Company
             </h1>
@@ -75,8 +74,7 @@ export function About() {
               viewport={{ once: true }}
             >
               <h2
-                className="text-4xl font-bold mb-6 text-gray-900"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                className="text-4xl font-bold mb-6 text-gray-900 font-poppins"
               >
                 A Founder-Led Delivery Culture
               </h2>
@@ -102,7 +100,7 @@ export function About() {
                   “Clients don’t hire us for code. They hire us for reliable delivery—done with care, documented decisions, and zero surprises.”
                 </p>
                 <div>
-                  <p className="font-bold" style={{ fontFamily: "Poppins, sans-serif" }}>
+                  <p className="font-bold font-poppins">
                     Founder, HZ IT Company
                   </p>
                   <p className="text-blue-200 text-sm">Engineering-led. Product-minded.</p>
@@ -123,8 +121,7 @@ export function About() {
               viewport={{ once: true }}
             >
               <h2
-                className="text-4xl font-bold mb-6 text-gray-900"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                className="text-4xl font-bold mb-6 text-gray-900 font-poppins"
               >
                 Our Story
               </h2>
@@ -166,8 +163,7 @@ export function About() {
                 <Target className="text-white" size={32} />
               </div>
               <h3
-                className="text-3xl font-bold mb-4 text-gray-900"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                className="text-3xl font-bold mb-4 text-gray-900 font-poppins"
               >
                 Our Mission
               </h3>
@@ -187,8 +183,7 @@ export function About() {
                 <Eye className="text-white" size={32} />
               </div>
               <h3
-                className="text-3xl font-bold mb-4"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                className="text-3xl font-bold mb-4 font-poppins"
               >
                 Our Vision
               </h3>
@@ -210,8 +205,7 @@ export function About() {
             className="text-center mb-16"
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 font-poppins"
             >
               Our Core Values
             </h2>
@@ -234,8 +228,7 @@ export function About() {
                   <value.icon className="text-white" size={36} />
                 </div>
                 <h3
-                  className="text-xl font-bold mb-2 text-gray-900"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="text-xl font-bold mb-2 text-gray-900 font-poppins"
                 >
                   {value.title}
                 </h3>
@@ -256,8 +249,7 @@ export function About() {
             className="text-center mb-16"
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 font-poppins"
             >
               Our Journey
             </h2>
@@ -288,8 +280,7 @@ export function About() {
 
                 <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                   <div
-                    className="text-3xl font-bold text-blue-600 mb-2"
-                    style={{ fontFamily: "Poppins, sans-serif" }}
+                    className="text-3xl font-bold text-blue-600 mb-2 font-poppins"
                   >
                     {item.year}
                   </div>
@@ -312,8 +303,7 @@ export function About() {
             className="text-center mb-16"
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 font-poppins"
             >
               Leadership Team
             </h2>
@@ -334,8 +324,7 @@ export function About() {
               >
                 <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 mb-4 shadow-lg group-hover:shadow-xl transition-shadow" />
                 <h3
-                  className="text-xl font-bold mb-1 text-gray-900"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="text-xl font-bold mb-1 text-gray-900 font-poppins"
                 >
                   {member.name}
                 </h3>

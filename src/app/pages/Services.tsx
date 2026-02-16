@@ -16,8 +16,49 @@ import {
 import { ServiceCard } from "../components/ServiceCard";
 import { CTAButton } from "../components/CTAButton";
 import { Seo } from "../components/Seo";
+import { useEffect, useMemo, useState } from "react";
+import { fetchPricing, type PricingItem } from "../services/platformService";
+import { Link } from "react-router";
 
 export function Services() {
+  const [pricing, setPricing] = useState<PricingItem[]>([]);
+  const [pricingError, setPricingError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    fetchPricing()
+      .then((r) => {
+        if (!mounted) return;
+        setPricing(r.items);
+      })
+      .catch((e: any) => {
+        if (!mounted) return;
+        setPricingError(e?.message ?? "Failed to load pricing");
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const pricingByService = useMemo(() => {
+    const map = new Map<string, { serviceName: string; plans: PricingItem[] }>();
+    for (const p of pricing) {
+      const key = p.service_key;
+      const existing = map.get(key);
+      if (existing) {
+        existing.plans.push(p);
+      } else {
+        map.set(key, { serviceName: p.service_name, plans: [p] });
+      }
+    }
+    return Array.from(map.entries()).map(([serviceKey, v]) => {
+      const sortedPlans = [...v.plans].sort((a, b) => a.price_inr - b.price_inr);
+      const starting = sortedPlans[0];
+      return { serviceKey, serviceName: v.serviceName, plans: sortedPlans, starting };
+    });
+  }, [pricing]);
+
   const services = [
     {
       icon: Code,
@@ -225,8 +266,7 @@ export function Services() {
             className="text-center"
           >
             <h1
-              className="text-5xl md:text-6xl font-bold mb-6"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-5xl md:text-6xl font-bold mb-6 font-poppins"
             >
               Our Services
             </h1>
@@ -255,6 +295,61 @@ export function Services() {
         </div>
       </section>
 
+      {/* Pricing */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold text-gray-900 font-poppins">
+              Pricing
+            </h2>
+            <p className="mt-3 text-lg text-gray-600">Transparent pricing to help you start fast.</p>
+          </div>
+
+          {pricingError ? (
+            <div className="mt-8 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+              {pricingError}
+            </div>
+          ) : null}
+
+          {pricingByService.length > 0 ? (
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {pricingByService.map((s) => (
+                <div key={s.serviceKey} className="rounded-2xl border border-gray-200 bg-gray-50 p-6">
+                  <div className="text-sm font-medium text-gray-600">{s.serviceName}</div>
+                  <div className="mt-2 text-2xl font-bold text-gray-900">
+                    Starting from ₹{s.starting.price_inr.toLocaleString("en-IN")}
+                  </div>
+                  <div className="mt-4 grid gap-2 text-sm text-gray-700">
+                    {s.plans.slice(0, 3).map((p) => (
+                      <div key={p.id} className="flex items-center justify-between">
+                        <span>{p.plan_name}</span>
+                        <span className="font-semibold">₹{p.price_inr.toLocaleString("en-IN")}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-6 flex gap-3">
+                    <Link
+                      to={`/checkout?pricingId=${s.starting.id}`}
+                      className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                    >
+                      Order Now
+                    </Link>
+                    <Link
+                      to="/hire-us"
+                      className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 hover:bg-gray-50"
+                    >
+                      Hire Us
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-10 text-center text-gray-600">Pricing will appear here once configured.</div>
+          )}
+        </div>
+      </section>
+
       {/* Process Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -265,8 +360,7 @@ export function Services() {
             className="text-center mb-16"
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 font-poppins"
             >
               Our Process
             </h2>
@@ -286,14 +380,12 @@ export function Services() {
                 className="relative bg-white rounded-2xl p-8 border border-gray-200 hover:border-blue-300 transition-all duration-300 hover:shadow-lg"
               >
                 <div
-                  className="text-6xl font-bold text-blue-100 mb-4"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="text-6xl font-bold text-blue-100 mb-4 font-poppins"
                 >
                   {item.step}
                 </div>
                 <h3
-                  className="text-2xl font-bold mb-3 text-gray-900"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="text-2xl font-bold mb-3 text-gray-900 font-poppins"
                 >
                   {item.title}
                 </h3>
@@ -314,8 +406,7 @@ export function Services() {
             className="text-center mb-16"
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 font-poppins"
             >
               Technologies We Use
             </h2>
@@ -364,8 +455,7 @@ export function Services() {
             viewport={{ once: true }}
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-6"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-6 font-poppins"
             >
               Let's Build Something Amazing
             </h2>

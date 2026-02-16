@@ -1,1 +1,9 @@
 /* Fonts are loaded via index.html <link> for performance. */
+
+.font-poppins {
+	font-family: Poppins, sans-serif;
+}
+
+.font-inter {
+	font-family: Inter, sans-serif;
+}

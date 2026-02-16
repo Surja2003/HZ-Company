@@ -8,6 +8,11 @@ import { requestLogger } from "./middleware/requestContext.js";
 import { errorHandler, HttpError, notFound } from "./middleware/errorHandler.js";
 import { contactRouter } from "./routes/contact.js";
 import { hireUsRouter } from "./routes/hireUs.js";
+import { authRouter } from "./routes/auth.js";
+import { pricingRouter } from "./routes/pricing.js";
+import { ordersRouter } from "./routes/orders.js";
+import { invoiceRouter } from "./routes/invoice.js";
+import { adminRouter } from "./routes/admin.js";
 
 export function createApp() {
   const app = express();
@@ -33,8 +38,8 @@ export function createApp() {
         return callback(new HttpError(403, "Not allowed by CORS", true));
       },
       credentials: false,
-      methods: ["GET", "POST", "OPTIONS"],
-      allowedHeaders: ["Content-Type"],
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
       maxAge: 600
     })
   );
@@ -50,6 +55,13 @@ export function createApp() {
   // Form endpoints
   app.use("/api", contactRouter);
   app.use("/api", hireUsRouter);
+
+  // Platform endpoints
+  app.use("/api", authRouter);
+  app.use("/api", pricingRouter);
+  app.use("/api", ordersRouter);
+  app.use("/api", invoiceRouter);
+  app.use("/api", adminRouter);
 
   app.use(notFound);
   app.use(errorHandler);

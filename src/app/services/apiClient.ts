@@ -19,20 +19,35 @@ async function parseJsonSafe(response: Response) {
   }
 }
 
-export async function postJson<TRequest extends Record<string, unknown>, TResponse>(
+async function requestJson<TResponse>(
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   path: string,
-  body: TRequest,
-  options?: { signal?: AbortSignal }
+  options?: {
+    body?: unknown;
+    signal?: AbortSignal;
+    token?: string;
+  }
 ): Promise<TResponse> {
-  const response = await fetch(`${getBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(body),
-    signal: options?.signal,
-  });
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+
+  if (method !== "GET" && method !== "DELETE") {
+    headers["Content-Type"] = "application/json";
+  }
+
+  if (options?.token) {
+    headers.Authorization = `Bearer ${options.token}`;
+  }
+
+  const response = await fetch(`${getBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`,
+    {
+      method,
+      headers,
+      body: options?.body ? JSON.stringify(options.body) : undefined,
+      signal: options?.signal,
+    }
+  );
 
   if (!response.ok) {
     const details = await parseJsonSafe(response);
@@ -53,4 +68,20 @@ export async function postJson<TRequest extends Record<string, unknown>, TRespon
 
   const json = (await parseJsonSafe(response)) as TResponse;
   return json;
+}
+
+export function getJson<TResponse>(path: string, options?: { signal?: AbortSignal; token?: string }) {
+  return requestJson<TResponse>("GET", path, { signal: options?.signal, token: options?.token });
+}
+
+export async function postJson<TRequest extends Record<string, unknown>, TResponse>(
+  path: string,
+  body: TRequest,
+  options?: { signal?: AbortSignal; token?: string }
+): Promise<TResponse> {
+  return requestJson<TResponse>("POST", path, {
+    body,
+    signal: options?.signal,
+    token: options?.token,
+  });
 }

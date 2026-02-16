@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -6,23 +6,67 @@ import logoImage from "@/assets/d02f6d670ee484ccb5b3f98463b90941b5d1ead6.png";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    let last = window.scrollY > 8;
-    setIsScrolled(last);
-    let ticking = false;
+  const navRef = useRef<HTMLElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
 
+  const navLinks = useMemo(
+    () => [
+      { name: "Home", path: "/" },
+      { name: "About", path: "/about" },
+      { name: "Services", path: "/services" },
+      { name: "Portfolio", path: "/portfolio" },
+      { name: "Contact", path: "/contact" },
+    ],
+    []
+  );
+
+  const activePath = location.pathname;
+
+  useEffect(() => {
+    let lastScrolled = window.scrollY > 8;
+    let lastY = window.scrollY;
+    let lastHidden = false;
+    setIsScrolled(lastScrolled);
+    setIsHidden(false);
+
+    let ticking = false;
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
       window.requestAnimationFrame(() => {
-        const next = window.scrollY > 8;
-        if (next !== last) {
-          last = next;
-          setIsScrolled(next);
+        const y = window.scrollY;
+        const nextScrolled = y > 8;
+        if (nextScrolled !== lastScrolled) {
+          lastScrolled = nextScrolled;
+          setIsScrolled(nextScrolled);
         }
+
+        const delta = y - lastY;
+        const isAtTop = y <= 8;
+
+        const activeEl = document.activeElement;
+        const isInteractingWithNav = !!(activeEl && navRef.current && navRef.current.contains(activeEl));
+
+        // Hide on scroll down, show on scroll up. Keep visible at top, when menu is open, or when keyboard focus is in the navbar.
+        let nextHidden = lastHidden;
+        if (isAtTop || isMobileMenuOpen || isInteractingWithNav) {
+          nextHidden = false;
+        } else if (delta > 10 && y > 80) {
+          nextHidden = true;
+        } else if (delta < -10) {
+          nextHidden = false;
+        }
+
+        if (nextHidden !== lastHidden) {
+          lastHidden = nextHidden;
+          setIsHidden(nextHidden);
+        }
+
+        lastY = y;
         ticking = false;
       });
     };
@@ -45,16 +89,58 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isMobileMenuOpen]);
 
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Services", path: "/services" },
-    { name: "Portfolio", path: "/portfolio" },
-    { name: "Contact", path: "/contact" },
-  ];
+  // Focus trap + outside click for mobile menu.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const menuEl = mobileMenuRef.current;
+    if (menuEl) {
+      const focusables = menuEl.querySelectorAll<HTMLElement>(
+        "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])"
+      );
+      focusables[0]?.focus();
+    }
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const container = mobileMenuRef.current;
+      if (!container) return;
+
+      const nodes = Array.from(
+        container.querySelectorAll<HTMLElement>(
+          "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])"
+        )
+      ).filter((n) => !n.hasAttribute("disabled") && n.tabIndex !== -1);
+
+      if (nodes.length === 0) return;
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      const activeEl = document.activeElement as HTMLElement | null;
+
+      if (!e.shiftKey && activeEl === last) {
+        e.preventDefault();
+        first.focus();
+      }
+      if (e.shiftKey && activeEl === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isMobileMenuOpen]);
 
   return (
-    <nav className="fixed top-4 inset-x-0 z-50 px-4">
+    <motion.nav
+      ref={(el) => {
+        navRef.current = el;
+      }}
+      initial={false}
+      animate={{ y: isHidden ? -24 : 0 }}
+      transition={{ type: "spring", stiffness: 420, damping: 44, mass: 0.9 }}
+      className="fixed top-4 inset-x-0 z-50 px-4"
+    >
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-blue-700 focus:shadow"
@@ -65,26 +151,26 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl">
         <div
           className={
-            "rounded-2xl border backdrop-blur-lg transition-all duration-300 ease-out " +
+            "rounded-2xl border transition-all duration-300 ease-out will-change-[backdrop-filter,background-color,box-shadow] " +
             (isScrolled
-              ? "bg-white/85 border-white/30 shadow-lg"
-              : "bg-white/55 border-white/20 shadow-md")
+              ? "backdrop-blur-xl bg-white/85 border-white/30 shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+              : "backdrop-blur-md bg-white/55 border-white/20 shadow-none")
           }
         >
           <div className="px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-20">
+            <div className="flex justify-between items-center h-16 md:h-20">
               {/* Logo */}
               <Link to="/" className="flex items-center group">
                 <img
                   src={logoImage}
                   alt="HZ IT Logo"
-                  className="h-10 w-10 object-contain"
+                  className="h-9 w-9 md:h-10 md:w-10 object-contain"
                 />
                 <span
-                  className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="ml-3 text-base sm:text-xl font-bold bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent font-poppins whitespace-nowrap"
                 >
-                  HZ IT Company
+                  <span className="hidden sm:inline">HZ IT Company</span>
+                  <span className="sm:hidden">HZ IT</span>
                 </span>
               </Link>
 
@@ -94,25 +180,26 @@ export function Navbar() {
                   <Link
                     key={link.path}
                     to={link.path}
-                    className={`relative text-sm font-medium transition-colors duration-300 ${
-                      location.pathname === link.path
-                        ? "text-blue-700"
-                        : "text-gray-800 hover:text-blue-700"
-                    }`}
+                    className={
+                      "relative text-sm font-medium transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white/60 " +
+                      (activePath === link.path
+                        ? "text-blue-800"
+                        : "text-gray-900/80 hover:text-blue-800")
+                    }
                   >
                     {link.name}
-                    {location.pathname === link.path && (
+                    {activePath === link.path && (
                       <motion.div
                         layoutId="navbar-indicator"
-                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-700"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full bg-blue-700"
+                        transition={{ type: "spring", stiffness: 520, damping: 38, mass: 0.6 }}
                       />
                     )}
                   </Link>
                 ))}
                 <Link
                   to="/hire-us"
-                  className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.03] transition-all duration-200"
+                  className="min-h-11 inline-flex items-center justify-center px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl shadow-sm hover:shadow-lg hover:scale-[1.03] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white/60"
                 >
                   Hire Us
                 </Link>
@@ -121,10 +208,10 @@ export function Navbar() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={isMobileMenuOpen}
-                className="md:hidden p-2 rounded-lg transition-colors hover:bg-white/60 text-gray-900"
+                aria-label="Menu"
+                className="md:hidden min-h-11 min-w-11 inline-flex items-center justify-center rounded-xl transition-colors hover:bg-white/60 text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white/60"
               >
+                <span className="sr-only">{isMobileMenuOpen ? "Close menu" : "Open menu"}</span>
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
@@ -134,38 +221,84 @@ export function Navbar() {
         {/* Mobile Menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -6, height: 0 }}
-              animate={{ opacity: 1, y: 0, height: "auto" }}
-              exit={{ opacity: 0, y: -6, height: 0 }}
-              transition={{ duration: 0.25 }}
-              className="md:hidden mt-3 rounded-2xl bg-white/85 backdrop-blur-lg border border-white/25 shadow-lg overflow-hidden"
-            >
-              <div className="px-6 py-6 space-y-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`block py-2 text-sm font-medium transition-colors ${
-                      location.pathname === link.path
-                        ? "text-blue-700"
-                        : "text-gray-800"
-                    }`}
+            <>
+              <motion.div
+                key="mobile-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.16 }}
+                className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] md:hidden"
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+
+              <motion.div
+                key="mobile-menu"
+                ref={(el) => {
+                  mobileMenuRef.current = el;
+                }}
+                role="dialog"
+                aria-modal="true"
+                initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 520, damping: 44, mass: 0.8 }}
+                className="md:hidden mt-3 rounded-2xl bg-white/90 backdrop-blur-xl border border-white/30 shadow-[0_8px_30px_rgba(0,0,0,0.12)] overflow-hidden relative z-50"
+              >
+                <div className="px-5 py-5">
+                  <div className="space-y-1">
+                    {navLinks.map((link) => {
+                      const isActive = activePath === link.path;
+                      return (
+                        <Link
+                          key={link.path}
+                          to={link.path}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={
+                            "min-h-11 px-3 rounded-xl flex items-center text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white/60 " +
+                            (isActive
+                              ? "bg-blue-50 text-blue-800"
+                              : "text-gray-900 hover:bg-gray-50")
+                          }
+                        >
+                          <span className="flex-1">{link.name}</span>
+                          {isActive ? (
+                            <motion.span
+                              layoutId="mobile-active-dot"
+                              className="h-2 w-2 rounded-full bg-blue-700"
+                              transition={{ type: "spring", stiffness: 520, damping: 40, mass: 0.6 }}
+                            />
+                          ) : (
+                            <span className="h-2 w-2 rounded-full bg-transparent" />
+                          )}
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  <div className="pt-4">
+                    <Link
+                      to="/hire-us"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="min-h-11 w-full inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl text-center shadow-sm hover:shadow-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white/60"
+                    >
+                      Hire Us
+                    </Link>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="mt-3 min-h-11 w-full inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-900 text-sm font-semibold hover:bg-gray-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {link.name}
-                  </Link>
-                ))}
-                <Link
-                  to="/hire-us"
-                  className="block px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl text-center shadow-sm"
-                >
-                  Hire Us
-                </Link>
-              </div>
-            </motion.div>
+                    Close
+                  </button>
+                </div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>
-    </nav>
+    </motion.nav>
   );
 }

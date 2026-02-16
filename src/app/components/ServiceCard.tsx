@@ -31,8 +31,7 @@ export function ServiceCard({ icon: Icon, title, description, features, delay = 
 
         {/* Title */}
         <h3
-          className="text-xl font-bold mb-3 text-gray-900"
-          style={{ fontFamily: "Poppins, sans-serif" }}
+          className="text-xl font-bold mb-3 text-gray-900 font-poppins"
         >
           {title}
         </h3>

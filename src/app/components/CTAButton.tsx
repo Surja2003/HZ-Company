@@ -1,14 +1,16 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface CTAButtonProps {
   to?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   variant?: "primary" | "secondary";
-  onClick?: () => void;
+  onClick?: () => void | Promise<void>;
   type?: "button" | "submit";
   className?: string;
+  disabled?: boolean;
 }
 
 export function CTAButton({
@@ -18,6 +20,7 @@ export function CTAButton({
   onClick,
   type = "button",
   className = "",
+  disabled = false,
 }: CTAButtonProps) {
   const baseClasses =
     "group inline-flex items-center px-8 py-4 rounded-xl font-semibold transition-all duration-300 text-sm";
@@ -29,7 +32,8 @@ export function CTAButton({
       "bg-white/10 backdrop-blur-sm text-white border-2 border-white/20 hover:bg-white/20 hover:border-white/30",
   };
 
-  const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
+  const disabledClasses = disabled ? "opacity-70 cursor-not-allowed pointer-events-none" : "";
+  const classes = `${baseClasses} ${variantClasses[variant]} ${disabledClasses} ${className}`;
 
   const content = (
     <>
@@ -53,11 +57,12 @@ export function CTAButton({
 
   return (
     <motion.button
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={disabled ? undefined : { scale: 1.05 }}
+      whileTap={disabled ? undefined : { scale: 0.98 }}
       onClick={onClick}
       type={type}
       className={classes}
+      disabled={disabled}
     >
       {content}
     </motion.button>

@@ -17,8 +17,7 @@ export function Footer() {
                 className="h-12 w-12 object-contain"
               />
               <h3
-                className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent font-poppins"
               >
                 HZ IT Company
               </h3>
@@ -59,7 +58,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
+            <h4 className="font-semibold mb-4 font-poppins">
               Quick Links
             </h4>
             <ul className="space-y-2">
@@ -78,7 +77,7 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
+            <h4 className="font-semibold mb-4 font-poppins">
               Our Services
             </h4>
             <ul className="space-y-2 text-sm text-gray-300">
@@ -91,7 +90,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-semibold mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
+            <h4 className="font-semibold mb-4 font-poppins">
               Contact Us
             </h4>
             <ul className="space-y-3">

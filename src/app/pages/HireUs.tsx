@@ -182,8 +182,7 @@ export function HireUs() {
             className="text-center"
           >
             <h1
-              className="text-5xl md:text-6xl font-bold mb-6"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-5xl md:text-6xl font-bold mb-6 font-poppins"
             >
               Let's Build Together
             </h1>
@@ -273,8 +272,7 @@ export function HireUs() {
                   className="space-y-6"
                 >
                   <h2
-                    className="text-3xl font-bold mb-6 text-gray-900"
-                    style={{ fontFamily: "Poppins, sans-serif" }}
+                    className="text-3xl font-bold mb-6 text-gray-900 font-poppins"
                   >
                     Personal Information
                   </h2>
@@ -288,7 +286,6 @@ export function HireUs() {
                       id="hire-name"
                       autoComplete="name"
                       {...register("name")}
-                      aria-invalid={errors.name ? "true" : "false"}
                       aria-describedby={errors.name ? "hire-name-error" : undefined}
                       className={
                         "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
@@ -314,7 +311,6 @@ export function HireUs() {
                         autoComplete="email"
                         inputMode="email"
                         {...register("email")}
-                        aria-invalid={errors.email ? "true" : "false"}
                         aria-describedby={errors.email ? "hire-email-error" : undefined}
                         className={
                           "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
@@ -339,7 +335,6 @@ export function HireUs() {
                         autoComplete="tel"
                         inputMode="tel"
                         {...register("phone")}
-                        aria-invalid={errors.phone ? "true" : "false"}
                         aria-describedby={errors.phone ? "hire-phone-error" : undefined}
                         className={
                           "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
@@ -379,8 +374,7 @@ export function HireUs() {
                   className="space-y-6"
                 >
                   <h2
-                    className="text-3xl font-bold mb-6 text-gray-900"
-                    style={{ fontFamily: "Poppins, sans-serif" }}
+                    className="text-3xl font-bold mb-6 text-gray-900 font-poppins"
                   >
                     Select Services
                   </h2>
@@ -398,7 +392,6 @@ export function HireUs() {
                             key={service.id}
                             type="button"
                             onClick={() => toggleService(service.id)}
-                            aria-pressed={isSelected}
                             className={`p-6 rounded-2xl border-2 transition-all duration-200 text-left ${
                               isSelected
                                 ? "border-blue-600 bg-blue-50 shadow-lg"
@@ -444,8 +437,7 @@ export function HireUs() {
                   className="space-y-6"
                 >
                   <h2
-                    className="text-3xl font-bold mb-6 text-gray-900"
-                    style={{ fontFamily: "Poppins, sans-serif" }}
+                    className="text-3xl font-bold mb-6 text-gray-900 font-poppins"
                   >
                     Project Details
                   </h2>
@@ -458,7 +450,6 @@ export function HireUs() {
                       type="text"
                       id="hire-project-name"
                       {...register("projectName")}
-                      aria-invalid={errors.projectName ? "true" : "false"}
                       aria-describedby={errors.projectName ? "hire-project-name-error" : undefined}
                       className={
                         "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
@@ -481,7 +472,6 @@ export function HireUs() {
                       rows={6}
                       id="hire-project-description"
                       {...register("projectDescription")}
-                      aria-invalid={errors.projectDescription ? "true" : "false"}
                       aria-describedby={errors.projectDescription ? "hire-project-description-error" : undefined}
                       className={
                         "w-full px-4 py-3 rounded-xl border outline-none transition-all resize-none focus:ring-2 focus:ring-blue-600/20 " +
@@ -504,7 +494,6 @@ export function HireUs() {
                       <select
                         id="hire-budget"
                         {...register("budget")}
-                        aria-invalid={errors.budget ? "true" : "false"}
                         aria-describedby={errors.budget ? "hire-budget-error" : undefined}
                         className={
                           "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
@@ -532,7 +521,6 @@ export function HireUs() {
                       <select
                         id="hire-timeline"
                         {...register("timeline")}
-                        aria-invalid={errors.timeline ? "true" : "false"}
                         aria-describedby={errors.timeline ? "hire-timeline-error" : undefined}
                         className={
                           "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
@@ -564,8 +552,7 @@ export function HireUs() {
                   className="space-y-6"
                 >
                   <h2
-                    className="text-3xl font-bold mb-6 text-gray-900"
-                    style={{ fontFamily: "Poppins, sans-serif" }}
+                    className="text-3xl font-bold mb-6 text-gray-900 font-poppins"
                   >
                     Additional Information
                   </h2>
@@ -679,8 +666,7 @@ export function HireUs() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2
-              className="text-4xl font-bold mb-4 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl font-bold mb-4 text-gray-900 font-poppins"
             >
               Why Clients Trust Us
             </h2>

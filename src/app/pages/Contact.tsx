@@ -119,8 +119,7 @@ export function Contact() {
             className="text-center"
           >
             <h1
-              className="text-5xl md:text-6xl font-bold mb-6"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-5xl md:text-6xl font-bold mb-6 font-poppins"
             >
               Get In Touch
             </h1>
@@ -147,8 +146,7 @@ export function Contact() {
                   <info.icon className="text-white" size={28} />
                 </div>
                 <h3
-                  className="text-lg font-bold mb-2 text-gray-900"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="text-lg font-bold mb-2 text-gray-900 font-poppins"
                 >
                   {info.title}
                 </h3>
@@ -177,8 +175,7 @@ export function Contact() {
                   </div>
                   <div>
                     <h2
-                      className="text-3xl font-bold text-gray-900"
-                      style={{ fontFamily: "Poppins, sans-serif" }}
+                      className="text-3xl font-bold text-gray-900 font-poppins"
                     >
                       Send Us a Message
                     </h2>
@@ -218,7 +215,6 @@ export function Contact() {
                       id="name"
                       autoComplete="name"
                       {...register("name")}
-                      aria-invalid={errors.name ? "true" : "false"}
                       className={
                         "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
                         (errors.name ? "border-rose-300 focus:border-rose-500" : "border-gray-300 focus:border-blue-600")
@@ -241,7 +237,6 @@ export function Contact() {
                         autoComplete="email"
                         inputMode="email"
                         {...register("email")}
-                        aria-invalid={errors.email ? "true" : "false"}
                         className={
                           "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
                           (errors.email ? "border-rose-300 focus:border-rose-500" : "border-gray-300 focus:border-blue-600")
@@ -276,7 +271,6 @@ export function Contact() {
                     <select
                       id="subject"
                       {...register("subject")}
-                      aria-invalid={errors.subject ? "true" : "false"}
                       className={
                         "w-full px-4 py-3 rounded-xl border outline-none transition-all focus:ring-2 focus:ring-blue-600/20 " +
                         (errors.subject ? "border-rose-300 focus:border-rose-500" : "border-gray-300 focus:border-blue-600")
@@ -301,7 +295,6 @@ export function Contact() {
                       id="message"
                       rows={6}
                       {...register("message")}
-                      aria-invalid={errors.message ? "true" : "false"}
                       className={
                         "w-full px-4 py-3 rounded-xl border outline-none transition-all resize-none focus:ring-2 focus:ring-blue-600/20 " +
                         (errors.message ? "border-rose-300 focus:border-rose-500" : "border-gray-300 focus:border-blue-600")
@@ -343,10 +336,9 @@ export function Contact() {
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019268820576!2d-122.39948768468204!3d37.79240197975687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085807da5c3e085%3A0x9b0f3a4e4e4e4e4e!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
                     width="100%"
                     height="100%"
-                    style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
-                    className="absolute inset-0"
+                    className="absolute inset-0 border-0"
                   />
                 </div>
               </div>
@@ -354,8 +346,7 @@ export function Contact() {
               {/* Why Choose Us */}
               <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900 rounded-3xl p-8 text-white shadow-xl">
                 <h3
-                  className="text-2xl font-bold mb-6"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="text-2xl font-bold mb-6 font-poppins"
                 >
                   Why Choose HZ IT Company?
                 </h3>
@@ -403,8 +394,7 @@ export function Contact() {
             viewport={{ once: true }}
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-6 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 font-poppins"
             >
               Ready to Start Your Project?
             </h2>

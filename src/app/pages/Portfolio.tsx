@@ -116,8 +116,7 @@ export function Portfolio() {
             className="text-center"
           >
             <h1
-              className="text-5xl md:text-6xl font-bold mb-6"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-5xl md:text-6xl font-bold mb-6 font-poppins"
             >
               Our Portfolio
             </h1>
@@ -197,8 +196,7 @@ export function Portfolio() {
                     {project.category}
                   </div>
                   <h3
-                    className="text-xl font-bold mb-2 text-gray-900"
-                    style={{ fontFamily: "Poppins, sans-serif" }}
+                    className="text-xl font-bold mb-2 text-gray-900 font-poppins"
                   >
                     {project.title}
                   </h3>
@@ -249,8 +247,7 @@ export function Portfolio() {
                 className="text-center"
               >
                 <div
-                  className="text-5xl font-bold mb-2"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
+                  className="text-5xl font-bold mb-2 font-poppins"
                 >
                   {stat.value}
                 </div>
@@ -270,8 +267,7 @@ export function Portfolio() {
             viewport={{ once: true }}
           >
             <h2
-              className="text-4xl md:text-5xl font-bold mb-6 text-gray-900"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 font-poppins"
             >
               Have a Project in Mind?
             </h2>

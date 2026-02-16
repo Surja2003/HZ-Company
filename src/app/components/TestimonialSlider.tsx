@@ -83,10 +83,7 @@ export function TestimonialSlider() {
 
           {/* Author */}
           <div>
-            <p
-              className="font-bold text-gray-900 text-lg"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
+            <p className="font-bold text-gray-900 text-lg font-poppins">
               {testimonials[currentIndex].name}
             </p>
             <p className="text-blue-600 text-sm">{testimonials[currentIndex].role}</p>

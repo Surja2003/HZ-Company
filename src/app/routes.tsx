@@ -30,6 +30,30 @@ export const router = createBrowserRouter([
         path: "hire-us",
         lazy: async () => ({ Component: (await import("./pages/HireUs")).HireUs }),
       },
+      {
+        path: "checkout",
+        lazy: async () => ({ Component: (await import("./pages/Checkout")).Checkout }),
+      },
+      {
+        path: "payment/success",
+        lazy: async () => ({ Component: (await import("./pages/PaymentSuccess")).PaymentSuccess }),
+      },
+      {
+        path: "portal/login",
+        lazy: async () => ({ Component: (await import("./pages/PortalLogin")).PortalLogin }),
+      },
+      {
+        path: "portal",
+        lazy: async () => ({ Component: (await import("./pages/PortalDashboard")).PortalDashboard }),
+      },
+      {
+        path: "admin/login",
+        lazy: async () => ({ Component: (await import("./pages/AdminLogin")).AdminLogin }),
+      },
+      {
+        path: "admin",
+        lazy: async () => ({ Component: (await import("./pages/AdminDashboard")).AdminDashboard }),
+      },
     ],
   },
 ]);

@@ -6,7 +6,7 @@ import { FloatingWhatsApp } from "./FloatingWhatsApp";
 
 export function Layout() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ fontFamily: 'Inter, sans-serif' }}>
+    <div className="min-h-screen flex flex-col font-inter overflow-x-hidden">
       <header>
         <Navbar />
       </header>

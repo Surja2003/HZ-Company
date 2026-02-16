@@ -11,11 +11,12 @@ export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElemen
   }
 
   const { src, alt, style, className, loading, decoding, ...rest } = props
+  const styleProps = style ? { style } : {}
 
   return didError ? (
     <div
       className={`inline-block bg-gray-100 text-center align-middle ${className ?? ''}`}
-      style={style}
+      {...styleProps}
     >
       <div className="flex items-center justify-center w-full h-full">
         <img src={ERROR_IMG_SRC} alt="Error loading image" {...rest} data-original-url={src} />
@@ -26,7 +27,7 @@ export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElemen
       src={src}
       alt={alt}
       className={className}
-      style={style}
+      {...styleProps}
       loading={loading ?? "lazy"}
       decoding={decoding ?? "async"}
       {...rest}

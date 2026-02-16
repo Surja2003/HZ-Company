@@ -4,7 +4,7 @@ import "dotenv/config";
 const envSchema = z
   .object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  PORT: z.coerce.number().int().positive(),
+  PORT: z.coerce.number().int().positive().default(8080),
 
   CORS_ORIGINS: z
     .string()
@@ -17,8 +17,19 @@ const envSchema = z
 
   DATABASE_URL: z.string().url(),
 
+  JWT_SECRET: z.string().min(32),
+
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(60_000),
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(20),
+
+  RAZORPAY_KEY_ID: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().min(1).optional()
+  ),
+  RAZORPAY_KEY_SECRET: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().min(1).optional()
+  ),
 
   // Optional email integration (Resend). Empty strings are treated as "unset".
   RESEND_API_KEY: z.preprocess(

@@ -1,0 +1,126 @@
+import { Link } from "react-router";
+import { Mail, Phone, MapPin, Linkedin, Twitter, Github } from "lucide-react";
+import logoImage from "@/assets/d02f6d670ee484ccb5b3f98463b90941b5d1ead6.png";
+import { siteConfig } from "@/app/config/site";
+
+export function Footer() {
+  return (
+    <footer className="bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Company Info */}
+          <div>
+            <div className="flex items-center mb-4">
+              <img
+                src={logoImage}
+                alt="HZ IT Logo"
+                className="h-12 w-12 object-contain"
+              />
+              <h3
+                className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                HZ IT Company
+              </h3>
+            </div>
+            <p className="text-gray-300 text-sm mb-4">
+              Transforming businesses through innovative IT solutions and digital excellence.
+            </p>
+            <div className="flex space-x-4">
+              <a
+                href={siteConfig.socials.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="HZ IT Company on LinkedIn"
+                className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-blue-600 transition-all duration-200 hover:scale-110"
+              >
+                <Linkedin size={18} />
+              </a>
+              <a
+                href={siteConfig.socials.twitter}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="HZ IT Company on Twitter"
+                className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-blue-600 transition-all duration-200 hover:scale-110"
+              >
+                <Twitter size={18} />
+              </a>
+              <a
+                href={siteConfig.socials.github}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="HZ IT Company on GitHub"
+                className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-blue-600 transition-all duration-200 hover:scale-110"
+              >
+                <Github size={18} />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-semibold mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Quick Links
+            </h4>
+            <ul className="space-y-2">
+              {["Home", "About", "Services", "Portfolio"].map((item) => (
+                <li key={item}>
+                  <Link
+                    to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                    className="text-gray-300 hover:text-blue-400 transition-colors text-sm"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h4 className="font-semibold mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Our Services
+            </h4>
+            <ul className="space-y-2 text-sm text-gray-300">
+              <li>Web Development</li>
+              <li>Mobile Apps</li>
+              <li>Cloud Solutions</li>
+              <li>IT Consulting</li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="font-semibold mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Contact Us
+            </h4>
+            <ul className="space-y-3">
+              <li className="flex items-start space-x-3 text-sm text-gray-300">
+                <Mail size={18} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                <a className="hover:text-blue-300 transition-colors" href={`mailto:${siteConfig.contact.email}`}>
+                  {siteConfig.contact.email}
+                </a>
+              </li>
+              <li className="flex items-start space-x-3 text-sm text-gray-300">
+                <Phone size={18} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                <a className="hover:text-blue-300 transition-colors" href={`tel:${siteConfig.contact.phone}`}>
+                  {siteConfig.contact.phone}
+                </a>
+              </li>
+              <li className="flex items-start space-x-3 text-sm text-gray-300">
+                <MapPin size={18} className="mt-0.5 flex-shrink-0 text-blue-400" />
+                <span>
+                  {siteConfig.address.streetAddress}, {siteConfig.address.addressLocality}, {siteConfig.address.addressRegion} {siteConfig.address.postalCode}
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 mt-8 pt-8 text-center text-sm text-gray-400">
+          <p>&copy; 2026 HZ IT Company. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
+}

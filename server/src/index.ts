@@ -6,6 +6,7 @@ import { pricingRoutes } from "./routes/pricing.js";
 import { contactRoutes } from "./routes/contact.js";
 import { hireUsRoutes } from "./routes/hireUs.js";
 import { authRouter } from "./routes/auth.js";
+import { otpRouter } from "./routes/otp.js";
 import { ordersRouter } from "./routes/orders.js";
 import { invoiceRouter } from "./routes/invoice.js";
 import { adminRouter } from "./routes/admin.js";
@@ -54,6 +55,7 @@ async function main() {
 
   // Existing platform endpoints
   app.use("/api", authRouter);
+  app.use("/api/auth/otp", otpRouter);
   app.use("/api", ordersRouter);
   app.use("/api", invoiceRouter);
   app.use("/api", adminRouter);

@@ -83,6 +83,35 @@ create table if not exists services_pricing (
 
 create index if not exists idx_services_pricing_active on services_pricing (is_active, sort_order, service_key);
 
+-- Users (email + phone)
+create table if not exists users (
+  id bigserial primary key,
+  created_at timestamptz not null default now(),
+
+  name text not null,
+  email text not null unique,
+  phone text null,
+
+  is_verified boolean not null default false,
+  password_hash text null
+);
+
+create unique index if not exists idx_users_phone_unique on users (phone) where phone is not null;
+
+-- OTP codes
+create table if not exists otp_codes (
+  id bigserial primary key,
+  created_at timestamptz not null default now(),
+
+  user_id bigint not null references users(id) on delete cascade,
+  otp_hash text not null,
+  otp_salt text not null,
+  expires_at timestamptz not null,
+  consumed_at timestamptz null
+);
+
+create index if not exists idx_otp_user_expires on otp_codes (user_id, expires_at desc);
+
 -- Clients
 create table if not exists clients (
   id bigserial primary key,

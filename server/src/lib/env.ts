@@ -43,13 +43,35 @@ const envSchema = z
   MAIL_TO: z.preprocess(
     (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
     z.string().min(1).optional()
-  )
+  ),
+
+  // SMS OTP (MSG91)
+  MSG91_AUTH_KEY: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().min(1).optional()
+  ),
+  MSG91_TEMPLATE_ID: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().min(1).optional()
+  ),
+  OTP_EXPIRES_SECONDS: z.coerce.number().int().positive().default(300),
+  OTP_DEBUG_RETURN: z
+    .preprocess(
+      (v) => (typeof v === "string" ? v.trim().toLowerCase() : v),
+      z.enum(["true", "false"]).optional()
+    )
+    .transform((v) => v === "true")
   })
   .superRefine((val, ctx) => {
     // Only enforce MAIL_FROM/MAIL_TO when RESEND_API_KEY is set.
     if (!val.RESEND_API_KEY) return;
     if (!val.MAIL_FROM) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["MAIL_FROM"], message: "Required when RESEND_API_KEY is set" });
     if (!val.MAIL_TO) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["MAIL_TO"], message: "Required when RESEND_API_KEY is set" });
+
+    // SMS: if template is set, auth key must be set.
+    if (val.MSG91_TEMPLATE_ID && !val.MSG91_AUTH_KEY) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["MSG91_AUTH_KEY"], message: "Required when MSG91_TEMPLATE_ID is set" });
+    }
   });
 
 export type Env = z.infer<typeof envSchema>;
